@@ -27,7 +27,7 @@ Rectangle {
 		height: 150
 		text: "Add my Name!"
 		onPressed: { /* it's JavaScript in here! */
-			helloLabel.text += " from <your name>"
+            helloLabel.text += " from Thomas"
 		}
     }
 
