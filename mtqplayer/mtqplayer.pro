@@ -53,7 +53,8 @@ OTHER_FILES += \
     qml/WidgetDemo.qml \
     qml/Paint.qml \
     qml/HelloWorld.qml \
-    resources/config/mtqplayer.ini
+    resources/config/mtqplayer.ini \
+    qml/Playfield.qml
 
 INCLUDEPATH += include
 

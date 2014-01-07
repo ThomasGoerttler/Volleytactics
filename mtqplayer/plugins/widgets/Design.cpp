@@ -5,6 +5,7 @@ namespace design {
 	//The baseDir(this depends on your execution directory)
 	const QString baseDir("widgets/");
 
+
 	const QString widgetsSvgFile("://svg/Widgets.svg");
 
 	//The labelFont
