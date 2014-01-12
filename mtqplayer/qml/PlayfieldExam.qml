@@ -45,13 +45,6 @@ Rectangle
         player6.visible = true;
     }
 
-    function showAll()
-    {
-        goalImprint.visible = true;
-        arrow.visible = true;
-        direction.visible = true;
-    }
-
     function setCount()
     {
         count = 5;
@@ -242,10 +235,10 @@ Rectangle
         PushButton
         {
             id: goalImprint
-            Image {
+      /*      Image {
                 anchors.fill: parent
                 source: "../images/schuhabdruck.png"
-            }
+            } */
             x: 0.978 * playFieldWidth;
             y: 0.53 * playFieldHeight
             width:0.083 * playFieldWidth;
@@ -380,7 +373,7 @@ Rectangle
             repeat: false
             onTriggered:
             {
-                generalLabel.text = "Übung: Start in"
+                generalLabel.text = "Prüfung: Start in"
                 setCount();
             }
         }
@@ -404,7 +397,6 @@ Rectangle
             onTriggered:
             {
                 generalLabel.text = "";
-                showAll();
                 goalTimer.start();
                 animationTimer.start();
             }

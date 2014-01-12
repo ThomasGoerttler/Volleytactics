@@ -54,12 +54,11 @@ OTHER_FILES += \
     qml/Paint.qml \
     qml/HelloWorld.qml \
     resources/config/mtqplayer.ini \
-<<<<<<< HEAD \
-    qml/Playfield.qml
-    qml/Playfield.qml
-=======
+    qml/Playfield.qml \
+    qml/Playfield2.qml \
+    qml/world.qml \
+    qml/PlayfieldExam.qml
     qml/tast.qml
->>>>>>> c334ade852cfb5bac3278549613361cf80ec090f
 
 INCLUDEPATH += include
 
