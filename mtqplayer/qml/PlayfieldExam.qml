@@ -89,6 +89,10 @@ Rectangle
         finished = false;
         resultLabel.text = "";
 
+        recognized = 0;
+        touchLeft = 0;
+        touchRight = 0;
+
         leftMistake.visible = false;
         rightMistake.visible = false;
     }
@@ -243,7 +247,7 @@ Rectangle
             y: 0.53 * playFieldHeight
             width:0.083 * playFieldWidth;
             height: 0.088 * playFieldHeight
-            visible: false
+            visible: true
 
             transform: Rotation
             {

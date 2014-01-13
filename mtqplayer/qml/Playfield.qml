@@ -96,6 +96,11 @@ Rectangle
         finished = false;
         resultLabel.text = "";
 
+
+        recognized = 0;
+        touchLeft = 0;
+        touchRight = 0;
+
         leftMistake.visible = false;
         rightMistake.visible = false;
     }
