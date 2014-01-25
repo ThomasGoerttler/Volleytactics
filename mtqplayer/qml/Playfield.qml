@@ -1,7 +1,16 @@
 import QtQuick 2.0
 import mtq.widgets 1.0
 
+
+
+
+
+
+
+
+
 Rectangle
+
 {
     id: floor
     width: 4096; height: 2400
@@ -104,6 +113,7 @@ Rectangle
         leftMistake.visible = false;
         rightMistake.visible = false;
     }
+
 
 
     Rectangle
@@ -304,15 +314,11 @@ Rectangle
                 angle: 130}
         }
 
-        Image
+        Player
         {
             id: player2
-            source: "../images/player.png"
             x: 0.6 * playFieldWidth
             y: 0.1 * playFieldHeight
-            width: 0.045 * playFieldWidth
-            height: 0.05 * playFieldHeight
-            visible: false
         }
 
         Image
