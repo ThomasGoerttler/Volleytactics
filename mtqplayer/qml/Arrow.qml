@@ -23,7 +23,7 @@ Rectangle
     //property int len : Math.sqrt(Math.pow(startx-endx), 2) - (Math.pow(starty-endy), 2))));
     property int difx : Math.abs(startx-endx);
     property int dify : Math.abs(starty-endy);
-    property int angel : (starty-endy)/(startx-endx) >= 0 ? 360/(2*Math.PI)*Math.atan(dify/difx) : -360/(2*Math.PI)*Math.atan(dify/difx);
+    property int angel : (starty-endy) < 0 ? 360/(2*Math.PI)*Math.atan(dify/difx)-90 : 360/(2*Math.PI)*Math.atan(dify/difx)+90;
 
 
     x: startx
@@ -31,8 +31,7 @@ Rectangle
     width: 50;
     height: Math.sqrt(difx*difx+dify*dify);
 
-    transform: Rotation { origin.x: 0; origin.y: 25; angle: (-1)*(angel-90)} // winkel richtig berechnen eig. Math.atan(dify/difx)
-
+    transform: Rotation { origin.x: 0; origin.y: 25; angle: angel}//(-1)*(angel-90)} // winkel richtig berechnen eig. Math.atan(dify/difx)
 
 
         Column {
@@ -53,7 +52,19 @@ Rectangle
 
          }
 
+        //final position is a push button
+        PushButton {
+            id: goalarea
+            x: startx-endx //stimmt nur für ausgewählte fälle
+            y: starty-endy
+            height: 200
+            width : 200
+            text : "o"
+            visible: true
+            opacity: 0.1
 
+            onPressed: infolabel.text = "paaaaasst"
+        }
 
 
      }

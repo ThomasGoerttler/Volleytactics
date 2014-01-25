@@ -19,8 +19,8 @@ Image
 
     id: player
     source: "../images/player.png"
-    width: 0.045 * playFieldWidth
-    height: 0.05 * playFieldHeight
+    width: 529/3
+    height: 805/3
     visible: true
     state : "auto"
 
@@ -44,6 +44,9 @@ Image
                  RotationAnimation { duration: 100; direction: RotationAnimation.Counterclockwise }
              }
 
+    Item {
+        id: status
+    }
 
     SequentialAnimation on x {
                 id: animationx
@@ -59,10 +62,13 @@ Image
                 NumberAnimation { from: player.y; to: targety; duration: animation_duration; easing.type: Easing.InOutQuad }
             }
 
-    MouseArea {
-            anchors.fill: parent
-            onClicked:  { changeState() } //onmtqcontact für multitoe
-            onDoubleClicked: {button.ready()} //TODO: improve events!!!
+    PushButton {
+            //anchors.fill: parent
+            opacity : 0.1
+            height : parent.height
+            width : parent.width
+            onPressed:  { changeState(),button.ready() } //onmtqcontact für multitoe
+            //onPressed: {} //TODO: improve events!!!
         }
 
     Label {

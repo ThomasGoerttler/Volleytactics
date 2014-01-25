@@ -41,10 +41,53 @@ Rectangle {
 
 
     Image {
-        id : volleyballfield
-        //source: "../images/Spielfeld5.jpg"
+        id : fieldimage
+        source: "../images/playfield.png"
+        height: playFieldHeight
+        width: playFieldHeight/672*642
 
-}
+
+        Label {
+            id: infolabelbasic
+            x: 50
+            y: playFieldHeight/2
+            text: ""
+            transform: Rotation { origin.x: 0; origin.y: 25; angle: 270}
+            Text {
+                id : infolabel
+                text: ""
+                font.family: "Helvetica"
+                font.pointSize: 50
+                color: "red"
+            }
+        }
+
+
+        Label {
+            id: countdownlabelbasic
+            x: 150
+            y: playFieldHeight/2
+            text: ""
+            transform: Rotation { origin.x: 0; origin.y: 25; angle: 270}
+            Text {
+                id : countdownlabel
+                text: parent.text //"Hello World!"
+                font.family: "Helvetica"
+                font.pointSize: 50
+                color: "red"
+            }
+        }
+
+        Rectangle {
+            id : playfield
+            x: 580//180/672*642
+            y: 20
+            color:  "transparent"
+            height : playFieldHeight
+            width: playFieldWidth
+
+
+
 
 Player {
 
@@ -95,8 +138,6 @@ Player {
 }
 
 
-property variant allPlayers: [player1, player2, player3, player4, player5, player6]
-
 
 
 
@@ -111,7 +152,7 @@ Ball {
 
 Slider {
     id: sliderspeed
-    x: 600
+    x: playFieldWidth + 600
     y: 50
     width: 500
     height: 250
@@ -192,22 +233,7 @@ Arrow {
 
 }
 
-property variant turn42Arrows : [arrow1, arrow2, arrow3, arrow4, arrow5, arrow6];
 
-Label {
-    id: infolabel
-    x: 1100
-    y: 1100
-    text: ""
-}
-
-
-Label {
-    id: countdownlabel
-    x: 1000
-    y: 1000
-    text: ""
-}
 
 
 Timer {
@@ -241,9 +267,15 @@ Timer {
 
 
 PushButton {
+
+    property variant allPlayers: [player1, player2, player3, player4, player5, player6]
+    property variant turn42Arrows : [arrow1, arrow2, arrow3, arrow4, arrow5, arrow6]
+
+
+
     id: button
-    x: 50
-    y: 50
+    x: playFieldWidth + 100
+    y: 200
     width: 300
     height: 250
     text: "Rorieren"
@@ -289,9 +321,6 @@ PushButton {
         //alle wieder zurück stellen
 
 
-        //ball.goTo(50, 50, 300)
-
-
         }
     function turn1Arrows() {
         //erst alle Pfeile anzeigen
@@ -301,6 +330,8 @@ PushButton {
         if (allPlayers[i].state == "user") {
 
             turn42Arrows[i].visible = true
+
+
         }
         }
 
@@ -312,6 +343,7 @@ PushButton {
 
         //dann bewegung ausführen
         ball.goTo(ballRouteToTurn42Positions[0][0], ballRouteToTurn42Positions[0][1], 5100*speed)
+        //playsound http://www.soundsnap.com/node/69484
 
         for (var i=0; i<6; i++) {
 
@@ -324,7 +356,7 @@ PushButton {
 
 
 }
+        }
 
-
-
+    }
 }
