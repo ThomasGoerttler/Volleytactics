@@ -35,6 +35,9 @@ Image
         State { name: "auto"
                 PropertyChanges { target: player; source:  "../images/player.png"}
         },
+        State { name: "opponent"
+                PropertyChanges { target: player; source:  "../images/player2.png"}
+        },
         State { name: "crossover" //um einen smoothen übergang zu erzeugen
                 PropertyChanges { target: player; opacity:  0.5}
         }

@@ -40,7 +40,8 @@ Rectangle
     state : "waiting"
 
     states: [State { name: "waiting"},
-        State { name: "waiting"}]
+        State { name: "running"},
+        State { name: "arrived"}]
 
     transform: Rotation { origin.x: 0; origin.y: thickness/2; angle: angel}//(-1)*(angel-90)} // winkel richtig berechnen eig. Math.atan(dify/difx)
 
@@ -102,16 +103,25 @@ Rectangle
         //final position is a push button
         PushButton {
             id: goalarea
-            x: thickness
+            x: thickness*0.5
             y: parent.height
             height: 200
-            width : thickness //
+            width : thickness*2 //
             text : ""
             visible: true
             opacity: 0.5
 
-            onPressed: {state="arrived", infolabel.text = "paaaaasst" }//player status auf reached setzen
+            onPressed: {parent.state="arrived" }//player status auf reached setzen
+            //onReleased: infolabel.text = "lauf "
         }
+
+        function reset() {
+            visible = false
+            state = "waiting"
+
+        }
+
+
 
 
      }

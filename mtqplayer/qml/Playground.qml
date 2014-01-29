@@ -3,8 +3,8 @@ import mtq.widgets 1.0
 
 Rectangle {
 
-    property int playFieldWidth : 2400;
-    property int playFieldHeight : 2400;
+    property int playFieldWidth : 1900;
+    property int playFieldHeight : 1900;
     property variant initialPositions :
         [[0.6 * playFieldWidth, 0.2 *playFieldHeight],
         [0.05 * playFieldWidth, 0.2 *playFieldHeight],
@@ -44,8 +44,8 @@ Rectangle {
     Image {
         id : fieldimage
         source: "../images/playfield.png"
-        height: playFieldHeight
-        width: playFieldWidth/642*672
+        height: floor.height
+        width: 642*floor.height/672
 
 
         Label {
@@ -79,11 +79,50 @@ Rectangle {
             }
         }
 
+
+        //the first row of the opponents
+        //player 3 has the ball and hits the ball to player 2 or 4
+        //spielzug kann den countdown ersetzen
+        //countdown von 3, dann spielt der zuspieler der gegner den ball, dann entscheidet sich der laufweg
+        //und wird angezeigt
+
+        Player {
+            id: opponent4
+            x: 100
+            y: 300
+            state: "opponent"
+        }
+
+        Player {
+            id: opponent3
+            x: 100
+            y: 900
+            state: "opponent"
+        }
+
+        Ball {
+
+            id: ball
+            x: opponent3.x
+            y: opponent3.y
+            opacity: 0.8
+
+        }
+
+        Player {
+            id: opponent2
+            x: 100
+            y: 1600
+            state: "opponent"
+        }
+
+
+
         Rectangle {
             id : playfield
             x: 580//180/672*642
-            y: 20
-            color:  "transparent"
+            y: 250
+            color:  "red"
             height : playFieldHeight
             width: playFieldWidth
 
@@ -141,15 +180,6 @@ Player {
 
 
 
-
-
-Ball {
-
-    id: ball
-    x: 0
-    y: 0
-
-}
 
 
 PlayerMenu {
@@ -350,7 +380,7 @@ PushButton {
         for (var i=0; i<6; i++) {
             allPlayers[i].goTo(initialPositions[i][0], initialPositions[i][1], 500)
             allPlayers[i].state = "auto"
-            turn42Arrows[i].visible = false
+            turn42Arrows[i].reset()
         }
         ball.moveTo(0, 0, 500)
 
@@ -377,6 +407,8 @@ PushButton {
 
         floor.speed = playermenu.speed
 
+
+
         counter.start()
         //dann bewegung ausführen
         ball.goTo(ballRouteToTurn42Positions[0][0], ballRouteToTurn42Positions[0][1], 5100*speed)
@@ -387,6 +419,11 @@ PushButton {
         if (allPlayers[i].state == "auto") {
             allPlayers[i].goTo(turn42Positions[i][0], turn42Positions[i][1], 5000*speed)
         }
+        else {
+            //make footprints invisible
+            allPlayers[i].visible = false
+
+        }
         }
         //infolabel.text = speed
 
@@ -396,11 +433,16 @@ PushButton {
     function evaluate() {
         //wird aufgerufen, wenn ball an zielposition ist
         infolabel.text = ""
+        var z = 0
         for (var i=0; i<6; i++) {
-            infolabel.text += " Gut Spieler" + (i+1)
+            //infolabel.text += turn42Arrows[i].state
             if (turn42Arrows[i].state == 'arrived') {
-                infolabel.text += "\n " + (i+1) + turn42Arrows[i].state
+                infolabel.text += "\n Jawoll " + (i+1) + turn42Arrows[i].state
+                z++
             }
+        }
+        if (z==playernumber) {
+            ball.goTo(ballRouteToTurn42Positions[1][0], ballRouteToTurn42Positions[1][1], speed*3000)
         }
 
     }
