@@ -100,14 +100,7 @@ Rectangle {
             state: "opponent"
         }
 
-        Ball {
 
-            id: ball
-            x: opponent3.x
-            y: opponent3.y
-            opacity: 0.8
-
-        }
 
         Player {
             id: opponent2
@@ -122,11 +115,18 @@ Rectangle {
             id : playfield
             x: 580//180/672*642
             y: 250
-            color:  "red"
+            color:  "transparent" //red"
             height : playFieldHeight
             width: playFieldWidth
 
+            Ball {
 
+                id: ball
+                x: 0-parent.x+opponent3.x
+                y: 0-parent.y+ opponent3.y
+                opacity: 0.8
+
+            }
 
 
 Player {
@@ -283,7 +283,7 @@ Arrow {
 Timer {
     property int sec : 5
     id: countdown
-    interval: 1000
+    interval: speed*1000
     running: false
     repeat: false
     onTriggered: oneDown()
@@ -291,6 +291,9 @@ Timer {
     function oneDown() {
 
         countdown.running = true
+        if (countdown.sec == 5) {
+            ball.goTo(opponent4.x-parent.x, opponent4.y-parent.y, speed*3000)
+        }
         if (countdown.sec == 3) {
             button.turn1Arrows()
         }
