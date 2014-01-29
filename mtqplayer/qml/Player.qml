@@ -46,6 +46,7 @@ Image
 
     Item {
         id: status
+
     }
 
     SequentialAnimation on x {
@@ -73,8 +74,8 @@ Image
 
     Label {
         id: info
-        x: 900
-        y: 100
+        x: player.x
+        y: player.y
         text: ""
 
     }

@@ -62,7 +62,8 @@ OTHER_FILES += \
     qml/Playground.qml \
     qml/Ball.qml \
     qml/Arrow.qml \
-    qml/Test.qml
+    qml/Test.qml \
+    qml/PlayerMenu.qml
     qml/tast.qml
 
 INCLUDEPATH += include

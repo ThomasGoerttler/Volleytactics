@@ -27,6 +27,7 @@ Rectangle {
 
 
     property double speed : 0.5; // 1 ist originaltempo
+    property int playernumber : 1 //number of active players in the training
 
     //erzeuge alle :( Pfeile mit visible auf false
     // Repeater könnte irgendwie auch klappen
@@ -44,7 +45,7 @@ Rectangle {
         id : fieldimage
         source: "../images/playfield.png"
         height: playFieldHeight
-        width: playFieldHeight/672*642
+        width: playFieldWidth/642*672
 
 
         Label {
@@ -150,26 +151,33 @@ Ball {
 
 }
 
-Slider {
-    id: sliderspeed
-    x: playFieldWidth + 600
-    y: 50
-    width: 500
-    height: 250
-    value : 0.2
-    //onmt: updateSpeed() //onmtqContactMove for floor
+
+PlayerMenu {
+        id: playermenu
+    x : 2000
+    y : 600
+}
+
+RadioButton {
+    id: buttonnumber
+    x: 2300
+    y: 1000
+    width: 1200
+    selectedItem: 0
+    rotation: 270
 
     Component.onCompleted: {
-        sliderspeed.updateSpeed.connect(setSpeed)
+        buttonnumber.addItem("1");
+        buttonnumber.addItem("2");
+        buttonnumber.addItem("3");
+        buttonnumber.addItem("4");
+        buttonnumber.addItem("5");
+        buttonnumber.addItem("6");
     }
 
-
-    signal updateSpeed() // set the speed
-
-    function setSpeed() {
-        speed = sliderspeed.value+0.001
-
-    }
+    onSelectedItemChanged: {
+        floor.playernumber = selectedItem+1
+}
 
 }
 
@@ -179,6 +187,7 @@ Arrow {
     starty : initialPositions[0][1]
     endx : turn42Positions[0][0]
     endy : turn42Positions[0][1]
+    angel: 90 // should be calculated ...
     visible : false
 
 }
@@ -189,6 +198,7 @@ Arrow {
     starty : initialPositions[1][1]
     endx : turn42Positions[1][0]
     endy : turn42Positions[1][1]
+    angel : 180
     visible : false
 
 }
@@ -199,6 +209,7 @@ Arrow {
     starty : initialPositions[2][1]
     endx : turn42Positions[2][0]
     endy : turn42Positions[2][1]
+    angel : 180
     visible : false
 
 }
@@ -209,6 +220,7 @@ Arrow {
     starty : initialPositions[3][1]
     endx : turn42Positions[3][0]
     endy : turn42Positions[3][1]
+    angel : 68.2-180
     visible : false
 
 }
@@ -219,6 +231,7 @@ Arrow {
     starty : initialPositions[4][1]
     endx : turn42Positions[4][0]
     endy : turn42Positions[4][1]
+    angel : 26.5+90
     visible : false
 
 }
@@ -229,6 +242,7 @@ Arrow {
     starty : initialPositions[5][1]
     endx : turn42Positions[5][0]
     endy : turn42Positions[5][1]
+    angel : 40-90
     visible : false
 
 }
@@ -263,7 +277,28 @@ Timer {
      }
 
 
+Timer {
+    property int countvar : 0
+    id : counter
+    interval : 10
+    running : false
+    repeat : false
+    onTriggered: count()
 
+    function count() {
+        countvar += 10
+
+    }
+
+    function stop() {
+        running = false
+    }
+
+    function reset() {
+        countvar = 0
+    }
+
+}
 
 
 PushButton {
@@ -278,50 +313,50 @@ PushButton {
     y: 200
     width: 300
     height: 250
-    text: "Rorieren"
-    onPressed: moveturn42() //onmtqContactMove for floor
+    text: "Evaluate"
+    onPressed: evaluation() //onmtqContactMove for floor
 
     states : [State {name: "initial"},
         State {name : "turn42"}]
 
 
-    signal rotation() // all player rotates
+    signal evaluation() // all player rotates
     signal moveturn42() //bewege auf position von spielzug 42
     signal isReady()
 
     Component.onCompleted: {
-        //button.rotation.connect(rotate)
         button.moveturn42.connect(turn1)
         //button.pressed.connect(send)
         button.isReady.connect(ready)
+        button.evaluation.connect(evaluate)
     }
 
 
     function ready() {
 
-        countdown.start()
+        var z = 0
+        for (var i=0; i<6; i++) {
 
+        if (allPlayers[i].state == "user") {
+            z++
+        }
+        }
+        if (z == floor.playernumber) {
+            countdown.start()} //akustischen countdown hinzufügen
+    }
+
+    function goToInitialPositions() {
+
+        for (var i=0; i<6; i++) {
+            allPlayers[i].goTo(initialPositions[i][0], initialPositions[i][1], 500)
+            allPlayers[i].state = "auto"
+            turn42Arrows[i].visible = false
+        }
+        ball.moveTo(0, 0, 500)
 
     }
 
-    function rotate() {
 
-
-
-        sliderspeed.updateSpeed()
-
-
-        for (var i=0; i<5; i++)
-            allPlayers[i].goTo(allPlayers[i+1].x, allPlayers[i+1].y, 2000*speed)
-
-        allPlayers[5].goTo(allPlayers[0].x, allPlayers[0].y, 2000*speed)
-
-        //alle Elemente in der allPlayers um eine Position verschieben
-        //oder einfach wieder auf initiale Position gehen und visible wechseln
-        //alle wieder zurück stellen
-
-
-        }
     function turn1Arrows() {
         //erst alle Pfeile anzeigen
 
@@ -339,8 +374,10 @@ PushButton {
 
     function turn1() {
         //4-2 system
-        sliderspeed.updateSpeed()
 
+        floor.speed = playermenu.speed
+
+        counter.start()
         //dann bewegung ausführen
         ball.goTo(ballRouteToTurn42Positions[0][0], ballRouteToTurn42Positions[0][1], 5100*speed)
         //playsound http://www.soundsnap.com/node/69484
@@ -351,6 +388,20 @@ PushButton {
             allPlayers[i].goTo(turn42Positions[i][0], turn42Positions[i][1], 5000*speed)
         }
         }
+        //infolabel.text = speed
+
+
+    }
+
+    function evaluate() {
+        //wird aufgerufen, wenn ball an zielposition ist
+        infolabel.text = ""
+        for (var i=0; i<6; i++) {
+            infolabel.text += " Gut Spieler" + (i+1)
+            if (turn42Arrows[i].state == 'arrived') {
+                infolabel.text += "\n " + (i+1) + turn42Arrows[i].state
+            }
+        }
 
     }
 
@@ -359,4 +410,5 @@ PushButton {
         }
 
     }
+
 }
