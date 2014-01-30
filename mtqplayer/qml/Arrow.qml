@@ -47,8 +47,17 @@ Rectangle
 
 //Mehrere Spalten
 
+    Image {
+        id: imagearrow
+        source: "../images/Pfeil.png"
+        x: thickness
+        y: 0
+        height: parent.height
+        width: thickness
+    }
+
     // Spalte für den richtigen Weg
-        Column {
+    /*    Column {
              x: thickness; y: 0
              spacing: 0
 
@@ -66,7 +75,7 @@ Rectangle
              }
 
          }
-
+*/
         // Spalte für Abweichung links
         Column {
              x: 0; y: 0

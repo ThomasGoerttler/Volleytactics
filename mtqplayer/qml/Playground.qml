@@ -3,8 +3,8 @@ import mtq.widgets 1.0
 
 Rectangle {
 
-    property int playFieldWidth : 1900;
-    property int playFieldHeight : 1900;
+    property int playFieldWidth : 1850;
+    property int playFieldHeight : 1850;
     property variant initialPositions :
         [[0.6 * playFieldWidth, 0.2 *playFieldHeight],
         [0.05 * playFieldWidth, 0.2 *playFieldHeight],
@@ -45,18 +45,18 @@ Rectangle {
         id : fieldimage
         source: "../images/playfield.png"
         height: floor.height
-        width: 642*floor.height/672
+        width: 692*floor.height/565
 
 
         Label {
             id: infolabelbasic
-            x: 50
-            y: playFieldHeight/2
+            x: 600
+            y: playFieldHeight/1.3
             text: ""
             transform: Rotation { origin.x: 0; origin.y: 25; angle: 270}
             Text {
                 id : infolabel
-                text: ""
+                text: "o"
                 font.family: "Helvetica"
                 font.pointSize: 50
                 color: "red"
@@ -88,14 +88,14 @@ Rectangle {
 
         Player {
             id: opponent4
-            x: 100
+            x: 400
             y: 300
             state: "opponent"
         }
 
         Player {
             id: opponent3
-            x: 100
+            x: 450
             y: 900
             state: "opponent"
         }
@@ -104,7 +104,7 @@ Rectangle {
 
         Player {
             id: opponent2
-            x: 100
+            x: 400
             y: 1600
             state: "opponent"
         }
@@ -113,9 +113,9 @@ Rectangle {
 
         Rectangle {
             id : playfield
-            x: 580//180/672*642
+            x: 1050//180/672*642
             y: 250
-            color:  "transparent" //red"
+            color:  "transparent"
             height : playFieldHeight
             width: playFieldWidth
 
@@ -124,7 +124,7 @@ Rectangle {
                 id: ball
                 x: 0-parent.x+opponent3.x
                 y: 0-parent.y+ opponent3.y
-                opacity: 0.8
+                opacity: 0.9
 
             }
 
@@ -184,7 +184,7 @@ Player {
 
 PlayerMenu {
         id: playermenu
-    x : 2000
+    x : 2200
     y : 600
 }
 
@@ -383,6 +383,7 @@ PushButton {
         for (var i=0; i<6; i++) {
             allPlayers[i].goTo(initialPositions[i][0], initialPositions[i][1], 500)
             allPlayers[i].state = "auto"
+            allPlayers[i].visible = true
             turn42Arrows[i].reset()
         }
         ball.moveTo(0, 0, 500)

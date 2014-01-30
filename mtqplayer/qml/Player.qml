@@ -24,6 +24,7 @@ Image
     visible: true
     state : "auto"
 
+
     states: [State {
                  name: "rotation"
                  PropertyChanges { target: player; rotation: rotationAngel }
